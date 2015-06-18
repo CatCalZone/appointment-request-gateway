@@ -1,0 +1,36 @@
+info:
+  component: Appointment Request Scheduler
+
+server:
+  port: 0
+eureka:
+  instance:
+    preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${random.value}}}
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+       defaultZone: http://localhost:8761/eureka/
+
+#tmp
+incomingAppointmentQueue: appointmentRequestQueue
+slotFoundQueue: slotFoundQueue
+noSlotFoundQueue: noSlotFoundQueue
+queue_postfix: -schedulerservice
+exchange_postfix: -exchange
+incomingAppointmentQueueHost: localhost
+
+
+---
+
+spring:
+    profiles: docker
+
+eureka:
+  client:
+      serviceUrl:
+        defaultZone: http://discoveryservice:8761/eureka/
+
+incomingAppointmentQueueHost: theRabbit
